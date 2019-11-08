@@ -15,6 +15,9 @@ public class Salesperson extends Person{
 	public double getComissionRate() {
 		return commission;
 	}
+	public void setSalesID(int id) {
+		this.salesID = id;
+	}
 	public int getSalesID() {
 		return salesID;
 	}
