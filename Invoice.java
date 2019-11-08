@@ -1,17 +1,25 @@
 package test;
 
+import java.util.ArrayList;
+
 public class Invoice {
-	private int invoiceNum, quantity;
-	private String item;
+	private int invoiceID, quantity;
+	private String address;
 	public Customer cust;
 	public Salesperson sales;
+	private ArrayList<String> products;
+	private Boolean isOpen = true;
+	private Double cost;
 	
-	public Invoice(int inv, Salesperson sp, Customer c, String itemName, int q) {
-		invoiceNum = inv;
+	public Invoice(int inv, Salesperson sp, Customer c, ArrayList<String> itemNames, int q) {
+		invoiceID = inv;
 		sales = sp;
 		cust = c;
-		item = itemName;
+		products = itemNames;
 		quantity = q;
+	}
+	public void productsPurchased() {
+		
 	}
 	public Customer getCustomer() {
 		return cust;
@@ -19,16 +27,19 @@ public class Invoice {
 	public Salesperson getSalesperson() {
 		return sales;
 	}
-	public int getInvoiceNum() {
-		return invoiceNum;
+	public int getInvoiceID() {
+		return invoiceID;
 	}
 	public int getQuantity() {
 		return quantity;
 	}
-	public String getItem() {
-		return item;
-	}
 	public void setQuantity(int q) {
 		this.quantity = q;
+	}
+	public void setStatus(Boolean b) {
+		this.isOpen = b;
+	}
+	public Boolean getStatus() {
+		return isOpen;
 	}
 }
