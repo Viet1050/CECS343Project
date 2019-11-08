@@ -21,10 +21,10 @@ public class Salesperson extends Person{
 	public int getSalesID() {
 		return salesID;
 	}
-	public void editSalesPerson(String f, String l, double c) {	
-		this.setFirstName(f);
-		this.setLastName(l);
-		this.setComissionRate(c);
+	public void editSalesPerson(String first, String last, double comm) {	
+		this.setFirstName(first);
+		this.setLastName(last);
+		this.setComissionRate(comm);
 	}
 
 

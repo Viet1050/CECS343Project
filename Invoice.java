@@ -3,20 +3,20 @@ package test;
 import java.util.ArrayList;
 
 public class Invoice {
-	private int invoiceID, quantity;
+	private int invoiceID;
 	private String address;
 	public Customer cust;
 	public Salesperson sales;
 	private ArrayList<PurchasedProduct> products;
 	private Boolean isOpen = true;
-	private Double cost;
+	private Double totalCost;
 	
-	public Invoice(int inv, Salesperson sp, Customer c, ArrayList<PurchasedProduct> itemNames, int q) {
-		invoiceID = inv;
+	public Invoice(int invID, Salesperson sp, Customer c, ArrayList<PurchasedProduct> itemNames, double cost) {
+		invoiceID = invID;
 		sales = sp;
 		cust = c;
 		products = itemNames;
-		quantity = q;
+		totalCost = cost; 
 	}
 	public Customer getCustomer() {
 		return cust;
@@ -27,16 +27,23 @@ public class Invoice {
 	public int getInvoiceID() {
 		return invoiceID;
 	}
-	public int getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(int q) {
-		this.quantity = q;
+	public ArrayList<PurchasedProduct> getProducts(){
+		return products;
 	}
 	public void setStatus(Boolean b) {
 		this.isOpen = b;
 	}
 	public Boolean getStatus() {
 		return isOpen;
+	}
+	public double getCost() {
+		return totalCost;
+	}
+	public void setCost(double c) {
+		this.totalCost = c;
+	}
+	public void editInvoice(Boolean status, Double cost) {
+		this.setStatus(status);
+		this.setCost(cost);
 	}
 }
