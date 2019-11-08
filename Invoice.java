@@ -7,19 +7,16 @@ public class Invoice {
 	private String address;
 	public Customer cust;
 	public Salesperson sales;
-	private ArrayList<String> products;
+	private ArrayList<PurchasedProduct> products;
 	private Boolean isOpen = true;
 	private Double cost;
 	
-	public Invoice(int inv, Salesperson sp, Customer c, ArrayList<String> itemNames, int q) {
+	public Invoice(int inv, Salesperson sp, Customer c, ArrayList<PurchasedProduct> itemNames, int q) {
 		invoiceID = inv;
 		sales = sp;
 		cust = c;
 		products = itemNames;
 		quantity = q;
-	}
-	public void productsPurchased() {
-		
 	}
 	public Customer getCustomer() {
 		return cust;
