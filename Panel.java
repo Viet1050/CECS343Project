@@ -38,7 +38,9 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 
 	ArrayList<Person> people = new ArrayList<Person>();		
 	ArrayList<Customer> cust = new ArrayList<Customer>();
+	ArrayList<Salesperson> sales = new ArrayList<Salesperson>();
 	ArrayList<Invoice> inv = new ArrayList<Invoice>();
+	ArrayList<PurchasedProduct> prods = new ArrayList<PurchasedProduct>();
 	ArrayList<Inventory> Inventory = new ArrayList<Inventory>();
 
 	private DefaultListModel<String> tasks = new DefaultListModel<>();
@@ -60,9 +62,27 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 		invoiceList= new JList<>(invoiceTasks);
 		inventoryList= new JList<>(inventoryTasks);
 		addCustomer();
+		addSalesperson();
+		boughtProduct();
+		makeInvoice();
+		//System.out.println(cust.size());
+		System.out.println("Customer");
+		System.out.println("Pre-edit: "+cust.get(0).getCustID()+" "+cust.get(0).getFirstName()+" "+ cust.get(0).getLastName()+" " + cust.get(0).getSalesTax());
 		cust.get(0).editCustomer( "f", "l", 100);
-		System.out.println(cust.size());
-		System.out.println(cust.get(0).getFirstName()+" "+ cust.get(0).getLastName()+" " + cust.get(0).getSalesTax());		
+		System.out.println("Post-edit: "+cust.get(0).getCustID()+" "+cust.get(0).getFirstName()+" "+ cust.get(0).getLastName()+" " + cust.get(0).getSalesTax());
+		
+		System.out.println("\nSalesperson");
+		System.out.println("Pre-edit: "+sales.get(0).getSalesID()+" "+sales.get(0).getFirstName()+" "+ sales.get(0).getLastName()+" " + sales.get(0).getComissionRate());
+		sales.get(0).editSalesPerson("A", "La Verga", 22.4);
+		System.out.println("Post-edit: "+sales.get(0).getSalesID()+" "+sales.get(0).getFirstName()+" "+ sales.get(0).getLastName()+" " + sales.get(0).getComissionRate());
+		
+		System.out.println("\nPurchased Product");
+		System.out.println(prods.get(0).getName()+" "+prods.get(0).getQuanitity());
+		
+		System.out.println("\nInvoice");
+		System.out.println("pre-edit: "+" "+inv.get(0).getInvoiceID()+" "+inv.get(0).getSalesperson()+" "+inv.get(0).getCustomer()+" "+inv.get(0).getProducts()+" "+inv.get(0).getCost());
+		inv.get(0).editInvoice(false, 45.99);
+		System.out.println("post-edit: "+" "+inv.get(0).getInvoiceID()+" "+inv.get(0).getSalesperson()+" "+inv.get(0).getCustomer()+" "+inv.get(0).getProducts()+" "+inv.get(0).getCost());
 		customerTasks.addElement(cust.get(0).getCustID()+"  " +cust.get(0).getFirstName()+" "+ cust.get(0).getLastName()+" " +cust.get(0).getSalesTax());
 		// ***************************LABEL GROUP***********************************************
 		// CUSTOMER GROUP
@@ -631,6 +651,21 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 	
 	public void removeCustomer(int index ) {
 		cust.remove(index);
+	}
+	
+	public void addSalesperson() {
+		sales.add(new Salesperson("Mas","Puta", 12.2, 123));
+	}
+	
+	public void boughtProduct() {
+		prods.add(new PurchasedProduct("Cookies", 5));
+	}
+	public void makeInvoice() {
+		Salesperson s = sales.get(0);
+		Customer c = cust.get(0);
+		System.out.println(s);
+		System.out.println(c);
+		inv.add(new Invoice(345, s, c, prods, 12.67));
 	}
 	
 	public void mainMenuDisplays() {

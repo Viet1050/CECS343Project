@@ -18,10 +18,10 @@ public class Customer extends Person {
 	public int getCustID() {
 		return custID;
 	}	
-	public void  editCustomer(String f, String l, double t) {	
-		this.setFirstName(f);
-		this.setLastName(l);
-		this.setSalesTax(t);
+	public void  editCustomer(String first, String last, double tax) {	
+		this.setFirstName(first);
+		this.setLastName(last);
+		this.setSalesTax(tax);
 	}
 
 }
