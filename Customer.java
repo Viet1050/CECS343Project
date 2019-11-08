@@ -16,7 +16,7 @@ public class Customer extends Person {
 		return slsTax;
 	}
 	public int getCustID() {
-		return custID;
+		return cusID;
 	}	
 	public void  editCustomer(String f, String l, double t) {	
 		this.setFirstName(f);
