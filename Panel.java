@@ -665,7 +665,7 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 		Customer c = cust.get(0);
 		System.out.println(s);
 		System.out.println(c);
-		inv.add(new Invoice(345, s, c, prods, 12.67));
+		inv.add(new Invoice(345, s, c,12.67));
 	}
 	
 	public void mainMenuDisplays() {

@@ -11,12 +11,18 @@ public class Invoice {
 	private Boolean isOpen = true;
 	private Double totalCost;
 	
-	public Invoice(int invID, Salesperson sp, Customer c, ArrayList<PurchasedProduct> itemNames, double cost) {
+	public Invoice(int invID, Salesperson sp, Customer c, double cost) {
 		invoiceID = invID;
 		sales = sp;
 		cust = c;
-		products = itemNames;
+		products = new ArrayList<PurchasedProduct>();
 		totalCost = cost; 
+	}
+	public void addProduct(PurchasedProduct p) {
+		products.add(p);
+	}
+	public void removeProduct(PurchasedProduct p) {
+		products.remove(p);
 	}
 	public Customer getCustomer() {
 		return cust;
