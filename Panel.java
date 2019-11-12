@@ -412,10 +412,8 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 				add(cancelCustomerBtn);add(custFNameLbl);add(custLNameLbl);add(custSlsTaxLbl);add(custIDLbl);add(tfCustFName);
 				add(tfCustLName);add(tfCustID);add(tfCustSlsTax);add(updateCustBtn);
 				
-				if(currentCustIndex ==-1 ) {
-					currentCustIndex = 0;
-				}else {
-				}
+				
+				
 					tfCustFName.setText(cust.get(currentCustIndex).getFirstName());
 					tfCustLName.setText(cust.get(currentCustIndex).getLastName());
 					tfCustID.setText(String.valueOf(cust.get(currentCustIndex).getCustID()));
@@ -423,8 +421,13 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 					repaint();
 				}
 
-				catch (ArrayIndexOutOfBoundsException ab) {
+				catch (IndexOutOfBoundsException i) {
 					JOptionPane.showMessageDialog(this, "There is no customer to edit");
+					remove(cancelCustomerBtn);remove(custFNameLbl);remove(custLNameLbl);remove(custSlsTaxLbl);remove(custIDLbl);remove(tfCustFName);
+					remove(tfCustLName);remove(tfCustID);remove(tfCustSlsTax);remove(updateCustBtn);
+					add(customerList);add(mainMenuBtn);add(addCustomerBtn);add(editCustomerBtn);
+					add(deleteCustBtn);
+					repaint();
 				}
 						
 		}else if (a.getSource() ==updateCustBtn) {
@@ -476,20 +479,22 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 			add(salesPersonList);add(mainMenuBtn);add(addSalesPersonBtn);add(editSalesPersonBtn);add(deleteSlsPersonBtn);
 			repaint();
 		}else if (a.getSource() == editSalesPersonBtn) {
-			
-			remove(salesPersonList);remove(mainMenuBtn);remove(addSalesPersonBtn);remove(editSalesPersonBtn);remove(deleteSlsPersonBtn);
-			add(slsPersonFNameLbl);add(slsPersonLNameLbl);add(slsPersonComissionLbl);add(slsPersonIDLbl);add(tfSlsPersonFName);
-			add(tfSlsPersonLName);add(tfSlsPersonID);add(tfSlsPersonCommission);add(updateSlsPersonBtn);add(cancelSlsPersonBtn);
-			if(currentCustIndex ==-1 ) {
-				currentCustIndex = 0;
-			}else {
+			try {
+				remove(salesPersonList);remove(mainMenuBtn);remove(addSalesPersonBtn);remove(editSalesPersonBtn);remove(deleteSlsPersonBtn);
+				add(slsPersonFNameLbl);add(slsPersonLNameLbl);add(slsPersonComissionLbl);add(slsPersonIDLbl);add(tfSlsPersonFName);
+				add(tfSlsPersonLName);add(tfSlsPersonID);add(tfSlsPersonCommission);add(updateSlsPersonBtn);add(cancelSlsPersonBtn);
+				tfSlsPersonFName.setText(sales.get(currentCustIndex).getFirstName());
+				tfSlsPersonLName.setText(sales.get(currentCustIndex).getLastName());
+				tfSlsPersonID.setText(String.valueOf(sales.get(currentCustIndex).getSalesID()));
+				tfSlsPersonCommission.setText(String.valueOf(sales.get(currentCustIndex).getComissionRate()) );
+				repaint();
+			}catch (IndexOutOfBoundsException i) {
+				JOptionPane.showMessageDialog(this, "There is no salesperson to edit");
+				add(salesPersonList);add(mainMenuBtn);add(addSalesPersonBtn);add(editSalesPersonBtn);add(deleteSlsPersonBtn);
+				remove(slsPersonFNameLbl);remove(slsPersonLNameLbl);remove(slsPersonComissionLbl);remove(slsPersonIDLbl);remove(tfSlsPersonFName);
+				remove(tfSlsPersonLName);remove(tfSlsPersonID);remove(tfSlsPersonCommission);remove(updateSlsPersonBtn);remove(cancelSlsPersonBtn);
+				repaint();
 			}
-			tfSlsPersonFName.setText(sales.get(currentCustIndex).getFirstName());
-			tfSlsPersonLName.setText(sales.get(currentCustIndex).getLastName());
-			tfSlsPersonID.setText(String.valueOf(sales.get(currentCustIndex).getSalesID()));
-			tfSlsPersonCommission.setText(String.valueOf(sales.get(currentCustIndex).getComissionRate()) );
-			repaint();
-				
 		} else if(a.getSource() == updateSlsPersonBtn) {
 			add(menuLbl);add(customerBtn);add(salesPersonBtn);add(invoiceBtn);add(inventoryBtn);
 			remove(slsPersonFNameLbl);remove(slsPersonLNameLbl);remove(slsPersonComissionLbl);remove(slsPersonIDLbl);remove(tfSlsPersonFName);
