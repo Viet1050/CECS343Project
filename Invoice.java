@@ -7,7 +7,7 @@ public class Invoice {
 	private String address;
 	public Customer cust;
 	public Salesperson sales;
-	private ArrayList<PurchasedProduct> products;
+	private ArrayList<Product> products;
 	private Boolean isOpen = true;
 	private Double totalCost;
 	
@@ -15,13 +15,13 @@ public class Invoice {
 		invoiceID = invID;
 		sales = sp;
 		cust = c;
-		products = new ArrayList<PurchasedProduct>();
+		products = new ArrayList<Product>();
 		totalCost = cost; 
 	}
-	public void addProduct(PurchasedProduct p) {
+	public void addProduct(Product p) {
 		products.add(p);
 	}
-	public void removeProduct(PurchasedProduct p) {
+	public void removeProduct(Product p) {
 		products.remove(p);
 	}
 	public Customer getCustomer() {
