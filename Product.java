@@ -1,5 +1,6 @@
 package test;
 
+
 public class Product {
 	
 	private String productName;
@@ -53,11 +54,12 @@ public class Product {
 		this.salePrice = salePrice;
 		
 		this.totalCost = quantity * productCost;
-		this.totalProfit = -(this.totalCost);
-		this.totalProfitPercent = this.totalProfit / 100;
-		
+	
 		this.quantitySold = 0;
 		this.totalSales = 0.0;
+		
+		this.totalProfit = -(this.totalCost) + totalSales;
+		this.totalProfitPercent = this.totalProfit / 100;
 	}
 	
 	//Copy Constructor
@@ -65,7 +67,12 @@ public class Product {
 		this.productName = toCopy.getName();
 		this.quantity = toCopy.getQuantity();
 		this.productCost = toCopy.getCost();
-		this.salePrice = toCopy.getPrice();
+		this.salePrice = toCopy.getSalePrice();
+		this.totalCost = toCopy.getTotalCost();
+		this.quantitySold = toCopy.getQtySold();
+		this.totalSales = toCopy.getTotalSales();
+		this.totalProfit = toCopy.getTotalProfit();
+		this.totalProfitPercent = toCopy.getTotalProfitPercent();
 	}
 	
 	
@@ -80,7 +87,7 @@ public class Product {
 	public double getCost() {
 		return productCost;
 	}
-	public double getPrice() {
+	public double getSalePrice() {
 		return salePrice;
 	}
 	public int getQtySold(){
@@ -102,20 +109,29 @@ public class Product {
 	
 		// Setters //
 	
+	/* Should not be used
+	 * 
+	 * 
 	public void setName(String productName) {
 		this.productName = productName;
 	}
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	*
+	*
+	*/
+	
 	public void setCost(double productCost) {
 		this.productCost = productCost;
+		
 	}
 	public void setPrice(double salePrice) {
 		this.salePrice = salePrice;
+		
 	}
 	
-	
+
 	
 	// Methods //
 	
@@ -133,7 +149,7 @@ public class Product {
 		totalProfit += (qty * salePrice);
 		
 		//Modify Proft percent
-		totalProfitPercent += (totalProfit / 100);
+		totalProfitPercent = (totalProfit / 100);
 	}
 	
 	
@@ -149,7 +165,7 @@ public class Product {
 		totalProfit += -(restockValue * productCost);
 		
 		//Modify Profit Percent
-		totalProfitPercent += (totalProfit / 100);
+		totalProfitPercent = (totalProfit / 100);
 	}
 	
 }

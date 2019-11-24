@@ -37,10 +37,9 @@ public class Inventory {
 		currentInventory.add(new Product(productName, quantity, productCost, salePrice));
 	}
 	
-	//Edit a product - But not name
-	public void editProductInInventory(Product productToEdit, int newQty, double newProdCost, double newSalePrice) {
+	//Edit a product - But not name or qty
+	public void editProductInInventory(Product productToEdit, double newProdCost, double newSalePrice) {
 		//Set new product values
-		productToEdit.setQuantity(newQty);
 		productToEdit.setCost(newProdCost);
 		productToEdit.setPrice(newSalePrice);
 
@@ -105,7 +104,7 @@ public class Inventory {
 			
 			System.out.println("Name: " + prod.getName());
 			System.out.println("Product Cost Price: " + prod.getCost());
-			System.out.println("Product Sale Price: " + prod.getPrice());
+			System.out.println("Product Sale Price: " + prod.getSalePrice());
 			System.out.println("Product Quantity on Hand: " + prod.getQuantity());
 			System.out.println();
 		}
@@ -126,7 +125,7 @@ public class Inventory {
 			
 			System.out.println("Name: " + prod.getName());
 			System.out.println("Product Cost Price: " + prod.getCost());
-			System.out.println("Product Sale Price: " + prod.getPrice());
+			System.out.println("Product Sale Price: " + prod.getSalePrice());
 			System.out.println("Product Quantity on Hand: " + prod.getQuantity());
 			System.out.println();
 		}
@@ -164,4 +163,3 @@ public class Inventory {
 		return lessThanSixProds;
 	}
 }
-
