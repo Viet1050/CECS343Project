@@ -6,6 +6,19 @@ public class Product {
 	private int quantity;
 	private double productCost;
 	private double salePrice;
+	private int quantitySold;
+	
+	//total of sales made
+	private double totalSales;
+	
+	//total of costs made 
+	private double totalCost;
+	
+	//total of sales & cost
+	private double totalProfit;
+	
+	//perentage of profit value
+	private double totalProfitPercent;
 	
 		//Constructors (Default to full) //
 	/*public Product() {
@@ -38,6 +51,13 @@ public class Product {
 		this.quantity = quantity;
 		this.productCost = productCost;
 		this.salePrice = salePrice;
+		
+		this.totalCost = quantity * productCost;
+		this.totalProfit = -(this.totalCost);
+		this.totalProfitPercent = this.totalProfit / 100;
+		
+		this.quantitySold = 0;
+		this.totalSales = 0.0;
 	}
 	
 	//Copy Constructor
@@ -63,6 +83,22 @@ public class Product {
 	public double getPrice() {
 		return salePrice;
 	}
+	public int getQtySold(){
+		return quantitySold;
+	}
+	public double getTotalSales(){
+		return totalSales;
+	}
+	public double getTotalCost(){
+		return totalCost;
+	}
+	public double getTotalProfit(){
+		return totalProfit;
+	}
+	public double getTotalProfitPercent(){
+		return totalProfitPercent;
+	}
+	
 	
 		// Setters //
 	
@@ -79,5 +115,41 @@ public class Product {
 		this.salePrice = salePrice;
 	}
 	
+	
+	
+	// Methods //
+	
+	
+	//load how much of product to purchase
+	public void sellProduct(int qty) {
+		//Set new amount sold and current stock
+		quantitySold += qty;
+		quantity -= qty;
+		
+		//Add to total sales
+		totalSales += (qty * salePrice);
+		
+		//Modify total Profits
+		totalProfit += (qty * salePrice);
+		
+		//Modify Proft percent
+		totalProfitPercent += (totalProfit / 100);
+	}
+	
+	
+	//Use for restocking Product
+	public void restock(int restockValue){
+		//Restock
+		quantity += restockValue;
+		
+		//Add to total Costs
+		totalCost += (restockValue * productCost);
+		
+		//Add to overall Profit
+		totalProfit += -(restockValue * productCost);
+		
+		//Modify Profit Percent
+		totalProfitPercent += (totalProfit / 100);
+	}
 	
 }
