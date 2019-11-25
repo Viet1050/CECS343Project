@@ -25,20 +25,22 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
  	private JLabel custFNameLbl, custLNameLbl, custSlsTaxLbl, custIDLbl;
  	private JLabel slsPersonFNameLbl, slsPersonLNameLbl, slsPersonComissionLbl, slsPersonIDLbl;
 	/** Buttons in Panel */
-	private JButton btnSubmit, btnCompleted, btnPostpone, btnQuit, btnAddTask, btnAddTaskSubmit;
-	private JButton salesPersonBtn, customerBtn, inventoryBtn, invoiceBtn,mainMenuBtn, addCustomerBtn, addSalesPersonBtn,
-	addInvoiceBtn, addInventoryBtn, editCustomerBtn, editSalesPersonBtn,editInvoiceBtn, editInventoryBtn,
-	openInvoiceBtn,closedInvoiceBtn,deleteInvoiceBtn,acceptCustBtn, cancelCustomerBtn,acceptSlsPersonBtn, cancelSlsPersonBtn;
-
-	/** List in panel */
-	private JList<String> lstList;
+	private JButton  inventoryBtn, invoiceBtn,mainMenuBtn,
+	addInvoiceBtn, addInventoryBtn,editInvoiceBtn, editInventoryBtn,
+	openInvoiceBtn,closedInvoiceBtn,deleteInvoiceBtn, cancelSlsPersonBtn;
+	//salesperson buttons
+	private JButton salesPersonBtn, addSalesPersonBtn, editSalesPersonBtn,acceptSlsPersonBtn,deleteSlsPersonBtn,updateSlsPersonBtn;
+	//customer buttons
+	private JButton updateCustBtn,customerBtn,  deleteCustBtn, editCustomerBtn, cancelCustomerBtn,acceptCustBtn, addCustomerBtn;
+		/** List in panel */
 	private JList<String> customerList, salesPersonList, inventoryList, invoiceList;
-	/** vector to save Task objects into */
-	private Vector<String> vectorTaskList = new Vector<String>();
 
+	//arrayLists of all objects
 	ArrayList<Person> people = new ArrayList<Person>();		
 	ArrayList<Customer> cust = new ArrayList<Customer>();
+	ArrayList<Salesperson> sales = new ArrayList<Salesperson>();
 	ArrayList<Invoice> inv = new ArrayList<Invoice>();
+	ArrayList<PurchasedProduct> prods = new ArrayList<PurchasedProduct>();
 	ArrayList<Inventory> Inventory = new ArrayList<Inventory>();
 
 	private DefaultListModel<String> tasks = new DefaultListModel<>();
@@ -54,16 +56,51 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 
 		
 		// add vectorTasklist into lstList
-		lstList = new JList<>(tasks);
 		customerList= new JList<>(customerTasks);
 		salesPersonList= new JList<>(salesPersonTasks);
 		invoiceList= new JList<>(invoiceTasks);
 		inventoryList= new JList<>(inventoryTasks);
-		addCustomer();
-		cust.get(0).editCustomer( "f", "l", 100);
-		System.out.println(cust.size());
-		System.out.println(cust.get(0).getFirstName()+" "+ cust.get(0).getLastName()+" " + cust.get(0).getSalesTax());		
-		customerTasks.addElement(cust.get(0).getCustID()+"  " +cust.get(0).getFirstName()+" "+ cust.get(0).getLastName()+" " +cust.get(0).getSalesTax());
+
+		//Testing Invoice
+		//add
+		makeInvoice();
+		System.out.println("Pre: "+inv.get(0).getInvoiceID()+" "+inv.get(0).getSalesperson().getFirstName()+" "+inv.get(0).getSalesperson().getLastName()+" "
+				+inv.get(0).getCustomer().getFirstName()+" "+inv.get(0).getCustomer().getLastName()+" "+inv.get(0).getCost()+" "+inv.get(0).getStatus());
+		//edit
+		inv.get(0).editInvoice(false, 34.7);
+		System.out.println("Post: "+inv.get(0).getInvoiceID()+" "+inv.get(0).getSalesperson().getFirstName()+" "+inv.get(0).getSalesperson().getLastName()+" "
+				+inv.get(0).getCustomer().getFirstName()+" "+inv.get(0).getCustomer().getLastName()+" "+inv.get(0).getCost()+" "+inv.get(0).getStatus());
+		//remove
+		System.out.println("\nSize: "+inv.size());
+		inv.remove(0);
+		System.out.println("Size: "+inv.size());
+		//display open
+		//dislpay closed
+		
+		
+//		addCustomer();
+//		addSalesperson();
+//		boughtProduct();
+//		makeInvoice();
+		//System.out.println(cust.size());
+//		System.out.println("Customer");
+//		System.out.println("Pre-edit: "+cust.get(0).getCustID()+" "+cust.get(0).getFirstName()+" "+ cust.get(0).getLastName()+" " + cust.get(0).getSalesTax());
+//		cust.get(0).editCustomer( "f", "l", 100);
+//		System.out.println("Post-edit: "+cust.get(0).getCustID()+" "+cust.get(0).getFirstName()+" "+ cust.get(0).getLastName()+" " + cust.get(0).getSalesTax());
+		
+//		System.out.println("\nSalesperson");
+//		System.out.println("Pre-edit: "+sales.get(0).getSalesID()+" "+sales.get(0).getFirstName()+" "+ sales.get(0).getLastName()+" " + sales.get(0).getComissionRate());
+//		sales.get(0).editSalesPerson("A", "La Verga", 22.4);
+//		System.out.println("Post-edit: "+sales.get(0).getSalesID()+" "+sales.get(0).getFirstName()+" "+ sales.get(0).getLastName()+" " + sales.get(0).getComissionRate());
+		
+//		System.out.println("\nPurchased Product");
+//		System.out.println(prods.get(0).getName()+" "+prods.get(0).getQuanitity());
+		
+//		System.out.println("\nInvoice");
+//		System.out.println("pre-edit: "+" "+inv.get(0).getInvoiceID()+" "+inv.get(0).getSalesperson()+" "+inv.get(0).getCustomer()+" "+inv.get(0).getProducts()+" "+inv.get(0).getCost());
+//		inv.get(0).editInvoice(false, 45.99);
+//		System.out.println("post-edit: "+" "+inv.get(0).getInvoiceID()+" "+inv.get(0).getSalesperson()+" "+inv.get(0).getCustomer()+" "+inv.get(0).getProducts()+" "+inv.get(0).getCost());
+//		customerTasks.addElement(cust.get(0).getCustID()+"  " +cust.get(0).getFirstName()+" "+ cust.get(0).getLastName()+" " +cust.get(0).getSalesTax());
 		// ***************************LABEL GROUP***********************************************
 		// CUSTOMER GROUP
 		custFNameLbl = new JLabel("CUSTOMER FIRST NAME");
@@ -80,29 +117,29 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 		// ***************************TEXT FIELD GROUP******************************************		
 		//CUSTOMER GROUP
 		tfCustFName = new JTextField("");
-		tfCustFName.addMouseListener(this);
-		
 		tfCustLName = new JTextField("");
-		tfCustLName.addMouseListener(this);
-		
 		tfCustID = new JTextField("");
-		tfCustID.addMouseListener(this);
-
 		tfCustSlsTax = new JTextField("");
+
+		tfCustFName.addMouseListener(this);	
+		tfCustLName.addMouseListener(this);
+		tfCustID.addMouseListener(this);
 		tfCustSlsTax.addMouseListener(this);
+		
+		
+		
 		
 		//SALESPERSON GROUP
 		tfSlsPersonFName = new JTextField("");
-		tfSlsPersonFName.addMouseListener(this);
-		
 		tfSlsPersonLName = new JTextField("");
-		tfSlsPersonLName.addMouseListener(this);
-		
 		tfSlsPersonID = new JTextField("");
-		tfSlsPersonID.addMouseListener(this);
-
 		tfSlsPersonCommission = new JTextField("");
+
+		tfSlsPersonFName.addMouseListener(this);
+		tfSlsPersonLName.addMouseListener(this);
+		tfSlsPersonID.addMouseListener(this);
 		tfSlsPersonCommission.addMouseListener(this);
+		
 		
 		// ***************************BUTTON GROUP*********************************************
 		openInvoiceBtn = new JButton("open Invoices");
@@ -157,22 +194,7 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 		inventoryBtn = new JButton("Inventory");
 		inventoryBtn.addActionListener(this);
 
-		// postpone button function
-		btnPostpone = new JButton("Postpone");
-		btnPostpone.addActionListener(this);
 
-		// quit button function
-		btnQuit = new JButton("QUIT");
-		btnQuit.addActionListener(this);
-
-		// add Task button function
-		btnAddTask = new JButton("ADD Task");
-		btnAddTask.addActionListener(this);
-
-		// add AddTaskSubmit Button
-		btnAddTaskSubmit = new JButton("Submit");
-		btnAddTaskSubmit.addActionListener(this);
-		
 		acceptCustBtn = new JButton("Submit");
 		acceptCustBtn.addActionListener(this);
 		
@@ -184,22 +206,35 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 		
 		cancelSlsPersonBtn = new JButton("Cancel");
 		cancelSlsPersonBtn.addActionListener(this);
+		
+		updateCustBtn = new JButton("Update");
+		updateCustBtn.addActionListener(this);
+		
+		deleteCustBtn = new JButton("Delete Cust");
+		deleteCustBtn.addActionListener(this);
+		
+		deleteSlsPersonBtn = new JButton("Delete SalesPerson");
+		deleteSlsPersonBtn.addActionListener(this);
+
+		updateSlsPersonBtn= new JButton("Update SalesPerson");
+		updateSlsPersonBtn.addActionListener(this);
+		
+		
 		// ***************************ADD LABEL GROUP*******************************************
 		add(menuLbl);
 		// ***************************ADD TEXT FIELD GROUP***************************************
 
-		
+	
 		// ***************************ADD BUTTON GROUP******************************************
 		add(customerBtn);
 		add(salesPersonBtn);
 		add(invoiceBtn);
 		add(inventoryBtn);
 		// ***************************ADD LIST GROUP*********************************************
-		add(lstList);
 		// ***************************SET LAYOUT STYLE FOR PANEL**********************************		
 		
 		setLayout(null);
-		// menu screen loadouts
+		// menu screen load outs
 		Insets insets = getInsets();
 		Dimension size = customerBtn.getPreferredSize();
 		
@@ -248,17 +283,27 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 		
 		size = cancelSlsPersonBtn.getPreferredSize();
 		cancelSlsPersonBtn.setBounds(250 + insets.left, 250 + insets.top, size.width + 25, size.height);
+		
+		size = deleteSlsPersonBtn.getPreferredSize();
+		deleteSlsPersonBtn.setBounds(250 + insets.left, 50 + insets.top, size.width + 25, size.height);
+		
+		size = updateSlsPersonBtn.getPreferredSize();
+		updateSlsPersonBtn.setBounds(25 + insets.left, 250 + insets.top, size.width + 60, size.height);
 
 		//*******************************************************************************************
 		//*********************CUSTOMER LOCATION*****************************************************
 		//*******************************************************************************************
-		//size = customerList.getPreferredSize();
-		//customerList.setBounds(65 + insets.left, 50 + insets.top, size.width + 300, 100 + size.height);
+
+
 		size = customerList.getPreferredSize();
 		customerList.setBounds(65 + insets.left, 100 + insets.top, size.width + 300, 100 + size.height);
 		
 		size = addCustomerBtn.getPreferredSize();
 		addCustomerBtn.setBounds(250 + insets.left, 10 + insets.top, size.width + 25, size.height);
+		
+		size = deleteCustBtn.getPreferredSize();
+		deleteCustBtn.setBounds(250 + insets.left, 50 + insets.top, size.width + 25, size.height);
+	
 		
 		size = editCustomerBtn.getPreferredSize();
 		editCustomerBtn.setBounds(25 + insets.left, 10 + insets.top, size.width + 25, size.height);
@@ -289,6 +334,9 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 		size = tfCustSlsTax.getPreferredSize();
 		tfCustSlsTax.setBounds(25 + insets.left, 180 + insets.top, size.width + 60, size.height);
 		//***************************BUTTON LOCATIONS**********************************************
+		
+		size = updateCustBtn.getPreferredSize();
+		updateCustBtn.setBounds(25 + insets.left, 250 + insets.top, size.width + 60, size.height);
 		
 		size = acceptCustBtn.getPreferredSize();
 		acceptCustBtn.setBounds(25 + insets.left, 250 + insets.top, size.width + 25, size.height);
@@ -340,149 +388,162 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 	@Override
 	public void actionPerformed(ActionEvent a) {
 		
-		int currentIndex= lstList.getSelectedIndex();		
-		int currentCustIndex= customerList.getSelectedIndex();		
+		int currentCustIndex= customerList.getSelectedIndex();
+		int currentSlsPersonIndex= salesPersonList.getSelectedIndex();		
 
+		//********************************Customer********************************	
 		if (a.getSource() == customerBtn) {
-			
-			remove(customerBtn);
-			remove(salesPersonBtn);
-			remove(invoiceBtn);
-			remove(inventoryBtn);			
-			remove(menuLbl);
-			add(customerList);
-			add(mainMenuBtn);
-			add(addCustomerBtn);
-			add(editCustomerBtn);
+				
+			for (int i = 0; i < cust.size(); i++) {
+				customerTasks.addElement(cust.get(i).getCustID()+"    "+ cust.get(i).getFirstName()+"    "+ cust.get(i).getLastName()+"    "+  cust.get(i).getSalesTax());
+			}
+			remove(menuLbl);remove(customerBtn);remove(salesPersonBtn);remove(invoiceBtn);remove(inventoryBtn);
+			add(customerList);add(mainMenuBtn);add(addCustomerBtn);add(editCustomerBtn);
+			add(deleteCustBtn);
 			repaint();
 			
 		}else if (a.getSource() ==  addCustomerBtn) {
-			remove(customerList);
-			remove(mainMenuBtn);
-			remove(addCustomerBtn);
-			remove(editCustomerBtn);
-			add(custFNameLbl);
-			add(custLNameLbl);
-			add(custSlsTaxLbl);
-			add(custIDLbl);
-			add(tfCustFName);
-			add(tfCustLName);
-			add(tfCustID);
-			add(tfCustSlsTax);
-			add(acceptCustBtn);
-			add(cancelCustomerBtn);
+			remove(customerList);remove(mainMenuBtn);remove(addCustomerBtn);remove(editCustomerBtn);remove(deleteCustBtn);
+			add(custFNameLbl);add(custLNameLbl);add(custSlsTaxLbl);add(custIDLbl);add(tfCustFName);add(tfCustLName);add(tfCustID);add(tfCustSlsTax);
+			add(acceptCustBtn);	add(cancelCustomerBtn);
 			repaint();
 			
 			
+		}else if ( a.getSource() == acceptCustBtn) {
+			addCustomer();
+			add(menuLbl);add(customerBtn);add(salesPersonBtn);add(invoiceBtn);add(inventoryBtn);
+			remove(custFNameLbl);remove(custLNameLbl);remove(custSlsTaxLbl);remove(custIDLbl);remove(tfCustFName);remove(tfCustLName);
+			remove(tfCustID);remove(tfCustSlsTax);remove(acceptCustBtn);remove(cancelCustomerBtn);
+			repaint();
 		}else if ( a.getSource() == cancelCustomerBtn) {
-			add(customerList);
-			add(mainMenuBtn);
-			add(addCustomerBtn);
-			add(editCustomerBtn);
-			remove(custFNameLbl);
-			remove(custLNameLbl);
-			remove(custSlsTaxLbl);
-			remove(custIDLbl);
-			remove(tfCustFName);
-			remove(tfCustLName);
-			remove(tfCustID);
-			remove(tfCustSlsTax);
-			remove(acceptCustBtn);
-			remove(cancelCustomerBtn);
+			add(customerList);add(mainMenuBtn);add(addCustomerBtn);add(editCustomerBtn);add(deleteCustBtn);
+			remove(custFNameLbl);remove(custLNameLbl);remove(custSlsTaxLbl);remove(custIDLbl);remove(tfCustFName);remove(tfCustLName);remove(tfCustID);
+			remove(tfCustSlsTax);remove(acceptCustBtn);remove(cancelCustomerBtn);remove(updateCustBtn);
 			repaint();
 			
-		}else if (a.getSource()== editCustomerBtn){
-			remove(customerList);
-			remove(mainMenuBtn);
-			remove(addCustomerBtn);
-			remove(editCustomerBtn);
+		}
+		else if (a.getSource()== editCustomerBtn){
+            try {    
+                remove(customerList);remove(mainMenuBtn);remove(addCustomerBtn);remove(editCustomerBtn);remove(deleteCustBtn);
+                add(cancelCustomerBtn);add(custFNameLbl);add(custLNameLbl);add(custSlsTaxLbl);add(custIDLbl);add(tfCustFName);
+                add(tfCustLName);add(tfCustID);add(tfCustSlsTax);add(updateCustBtn);
+                
+                
+                
+                    tfCustFName.setText(cust.get(currentCustIndex).getFirstName());
+                    tfCustLName.setText(cust.get(currentCustIndex).getLastName());
+                    tfCustID.setText(String.valueOf(cust.get(currentCustIndex).getCustID()));
+                    tfCustSlsTax.setText(String.valueOf(cust.get(currentCustIndex).getSalesTax()) );
+                    repaint();
+                }
 
-			add(custFNameLbl);
-			add(custLNameLbl);
-			add(custSlsTaxLbl);
-			add(custIDLbl);
-			add(tfCustFName);
-			add(tfCustLName);
-			add(tfCustID);
-			add(tfCustSlsTax);
-			tfCustFName.setText(cust.get(currentCustIndex).getFirstName());
-			tfCustLName.setText(cust.get(currentCustIndex).getLastName());
-			tfCustID.setText(String.valueOf(cust.get(currentCustIndex).getCustID()));
-			tfCustSlsTax.setText(String.valueOf(cust.get(currentCustIndex).getFirstName()) );
-			repaint();
-			
+                catch (IndexOutOfBoundsException i) {
+                    JOptionPane.showMessageDialog(this, "There is no customer to edit");
+                    remove(cancelCustomerBtn);remove(custFNameLbl);remove(custLNameLbl);remove(custSlsTaxLbl);remove(custIDLbl);remove(tfCustFName);
+                    remove(tfCustLName);remove(tfCustID);remove(tfCustSlsTax);remove(updateCustBtn);
+                    add(customerList);add(mainMenuBtn);add(addCustomerBtn);add(editCustomerBtn);
+                    add(deleteCustBtn);
+                    repaint();
+                }
+                        
+        
+		}else if (a.getSource() ==deleteCustBtn) {
+			try {
+				customerTasks.remove(currentCustIndex);
+				removeCustomer(currentCustIndex);
+				repaint();
+
+			} catch (ArrayIndexOutOfBoundsException ab) {
+				JOptionPane.showMessageDialog(this, "There is no customer to Delete");
+			}
+
+		//********************************SalesPerson********************************	
 		}else if (a.getSource() == salesPersonBtn) {			
-		
-		
-			remove(menuLbl);
-			remove(customerBtn);
-			remove(salesPersonBtn);
-			remove(invoiceBtn);
-			remove(inventoryBtn);
-			add(salesPersonList);
-			add(mainMenuBtn);
-			add(addSalesPersonBtn);
-			add(editSalesPersonBtn);
+			for (int i = 0; i < sales.size(); i++) {
+				salesPersonTasks.addElement(sales.get(i).getSalesID()+"    "+ sales.get(i).getFirstName()+"    "+ sales.get(i).getLastName()+"    "+  sales.get(i).getComissionRate());
+			}
+			
+			remove(menuLbl);remove(customerBtn);remove(salesPersonBtn);remove(invoiceBtn);remove(inventoryBtn);
+			add(salesPersonList);add(mainMenuBtn);add(addSalesPersonBtn);add(editSalesPersonBtn);add(deleteSlsPersonBtn);
 			repaint();
 			
 		}else if (a.getSource() == addSalesPersonBtn){
 			
-			remove(salesPersonList);
-			remove(mainMenuBtn);
-			remove(addSalesPersonBtn);
-			remove(editSalesPersonBtn);
-			add(slsPersonFNameLbl);
-			add(slsPersonLNameLbl);
-			add(slsPersonComissionLbl);
-			add(slsPersonIDLbl);
-			add(tfSlsPersonFName);
-			add(tfSlsPersonLName);
-			add(tfSlsPersonID);
-			add(tfSlsPersonCommission);
-			add(acceptSlsPersonBtn);
-			add(cancelSlsPersonBtn);
+			remove(salesPersonList);remove(mainMenuBtn);remove(addSalesPersonBtn);remove(editSalesPersonBtn);remove(deleteSlsPersonBtn);
+			add(slsPersonFNameLbl);add(slsPersonLNameLbl);add(slsPersonComissionLbl);add(slsPersonIDLbl);add(tfSlsPersonFName);
+			add(tfSlsPersonLName);add(tfSlsPersonID);add(tfSlsPersonCommission);add(acceptSlsPersonBtn);add(cancelSlsPersonBtn);
 			repaint();
 			
+		}else if (a.getSource()==acceptSlsPersonBtn) {
 			
-		}else if (a.getSource() == invoiceBtn) {
-		
-			remove(menuLbl);
-			remove(customerBtn);
-			remove(salesPersonBtn);
-			remove(invoiceBtn);
-			remove(inventoryBtn);
-			add(invoiceList);
-			add(addInvoiceBtn);
-			add(mainMenuBtn);
-			add(editInvoiceBtn);
-			add(deleteInvoiceBtn);
-			add(openInvoiceBtn);
-			add(closedInvoiceBtn);
+			addSalesperson();
+			add(menuLbl);add(customerBtn);add(salesPersonBtn);add(invoiceBtn);add(inventoryBtn);
+			remove(slsPersonFNameLbl);remove(slsPersonLNameLbl);remove(slsPersonComissionLbl);remove(slsPersonIDLbl);remove(tfSlsPersonFName);remove(tfSlsPersonLName);
+			remove(tfSlsPersonID);remove(tfSlsPersonCommission);remove(acceptSlsPersonBtn);remove(cancelSlsPersonBtn);
+			repaint();	
+		}else if (a.getSource() == cancelSlsPersonBtn) {
+
+			remove(slsPersonFNameLbl);remove(slsPersonLNameLbl);remove(slsPersonComissionLbl);remove(slsPersonIDLbl);remove(tfSlsPersonFName);
+			remove(tfSlsPersonLName);remove(tfSlsPersonID);remove(tfSlsPersonCommission);remove(acceptSlsPersonBtn);remove(cancelSlsPersonBtn);			
+			remove(menuLbl);remove(customerBtn);remove(salesPersonBtn);remove(invoiceBtn);remove(inventoryBtn);
+			add(salesPersonList);add(mainMenuBtn);add(addSalesPersonBtn);add(editSalesPersonBtn);add(deleteSlsPersonBtn);
 			repaint();
-		}else if (a.getSource() == closedInvoiceBtn) {
-			remove(invoiceList);
-			remove(addInvoiceBtn);
-			remove(mainMenuBtn);
-			remove(editInvoiceBtn);
-			remove(deleteInvoiceBtn);
-			remove(openInvoiceBtn);
+		}else if (a.getSource() == editSalesPersonBtn) {
+            try {
+                remove(salesPersonList);remove(mainMenuBtn);remove(addSalesPersonBtn);remove(editSalesPersonBtn);remove(deleteSlsPersonBtn);
+                add(slsPersonFNameLbl);add(slsPersonLNameLbl);add(slsPersonComissionLbl);add(slsPersonIDLbl);add(tfSlsPersonFName);
+                add(tfSlsPersonLName);add(tfSlsPersonID);add(tfSlsPersonCommission);add(updateSlsPersonBtn);add(cancelSlsPersonBtn);
+                tfSlsPersonFName.setText(sales.get(currentCustIndex).getFirstName());
+                tfSlsPersonLName.setText(sales.get(currentCustIndex).getLastName());
+                tfSlsPersonID.setText(String.valueOf(sales.get(currentCustIndex).getSalesID()));
+                tfSlsPersonCommission.setText(String.valueOf(sales.get(currentCustIndex).getComissionRate()) );
+                repaint();
+            }catch (IndexOutOfBoundsException i) {
+                JOptionPane.showMessageDialog(this, "There is no salesperson to edit");
+                add(salesPersonList);add(mainMenuBtn);add(addSalesPersonBtn);add(editSalesPersonBtn);add(deleteSlsPersonBtn);
+                remove(slsPersonFNameLbl);remove(slsPersonLNameLbl);remove(slsPersonComissionLbl);remove(slsPersonIDLbl);remove(tfSlsPersonFName);
+                remove(tfSlsPersonLName);remove(tfSlsPersonID);remove(tfSlsPersonCommission);remove(updateSlsPersonBtn);remove(cancelSlsPersonBtn);
+                repaint();
+            }
+        }
+		else if(a.getSource() == deleteSlsPersonBtn) {
+			try {
+				salesPersonTasks.remove(currentSlsPersonIndex);
+				removeCustomer(currentSlsPersonIndex);
+				repaint();
+
+			} catch (ArrayIndexOutOfBoundsException ab) {
+				JOptionPane.showMessageDialog(this, "There is no SalesPerson to Delete");
+			}
+		}
+
+		//********************************Invoice********************************	
+		else if (a.getSource() == invoiceBtn) {
+			remove(menuLbl);remove(customerBtn);remove(salesPersonBtn);remove(invoiceBtn);remove(inventoryBtn);
+			add(invoiceList);add(addInvoiceBtn);add(mainMenuBtn);add(editInvoiceBtn);add(deleteInvoiceBtn);add(openInvoiceBtn);add(closedInvoiceBtn);
+			repaint();
+		}
+		else if (a.getSource() == addInvoiceBtn) {
+			remove(invoiceList);remove(addInvoiceBtn);remove(mainMenuBtn);remove(editInvoiceBtn);remove(deleteInvoiceBtn);remove(openInvoiceBtn);remove(closedInvoiceBtn);
+			makeInvoice();
+		}
+		else if (a.getSource() == closedInvoiceBtn) {
+			remove(invoiceList);remove(addInvoiceBtn);remove(mainMenuBtn);remove(editInvoiceBtn);remove(deleteInvoiceBtn);remove(openInvoiceBtn);
 			remove(closedInvoiceBtn);
 			repaint();
 			
 			
 			
 		}else if (a.getSource() == openInvoiceBtn) {
-			remove(invoiceList);
-			remove(addInvoiceBtn);
-			remove(mainMenuBtn);
-			remove(editInvoiceBtn);
-			remove(deleteInvoiceBtn);
+			remove(invoiceList);remove(addInvoiceBtn);remove(mainMenuBtn);remove(editInvoiceBtn);remove(deleteInvoiceBtn);
 			remove(openInvoiceBtn);
 			remove(closedInvoiceBtn);
 			repaint();
 			
 			
 		}
+		
+		//********************************Inventory********************************	
 		else if (a.getSource() == inventoryBtn) {
 			remove(menuLbl);
 			remove(customerBtn);
@@ -494,90 +555,16 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 			add(addInventoryBtn);
 			add(editInventoryBtn);
 			repaint();
-		}else if (a.getSource() == btnCompleted) {
-			
-				try {
-					Insets insets = getInsets();
-					Dimension size;
-					lstList.getSelectedIndex();
-					//change layout of panels
-					remove(lstList);
-					//remove(lblTaskPostponed);
-					add(lstList);
-					//set taskCompleted to green
-					//lblTaskCompleted.setForeground(Color.green);
-					//add TaskCompleted label when user presses completed
-					//add(lblTaskCompleted);
-					
-					//remove item from heap and vector
-//					vectorTaskList.remove(0);
-//					heap.removeItem();
-					//remove first item from taskList
-					System.out.println(currentIndex);
-				//	vectorTaskList.remove(currentIndex);
-
-					tasks.remove(lstList.getSelectedIndex());
-					System.out.println("before removal");
-					for(int i=0; i<vectorTaskList.size();i++) {
-						System.out.println(vectorTaskList.get(i));
-					}
-					vectorTaskList.remove(currentIndex);
-					System.out.println("");
-					System.out.println("After Removal");
-					for(int i=0; i<vectorTaskList.size();i++) {
-						System.out.println(vectorTaskList.get(i));
-					}
-					//change completedBy and current task to new index 0
-//					tfCompletedBy.setText(vectorTaskList.get(0).getDueDate());
-//					tfCurrentTask.setText(vectorTaskList.get(0).getTask());
-					
-					//size = lblTaskCompleted.getPreferredSize();
-					//lblTaskCompleted.setBounds(200 + insets.left, 23 + insets.top, size.width + 5, size.height);
-					repaint();
-
-				} catch (ArrayIndexOutOfBoundsException ab) {
-					JOptionPane.showMessageDialog(this, "there is nothing else to complete");
-				}
 		}
 		else if (a.getSource() == mainMenuBtn) {
-				remove(addCustomerBtn);
-				remove(addSalesPersonBtn);
-				remove(addInvoiceBtn);
-				remove(addInventoryBtn);
-				remove(editCustomerBtn);
-				remove(editSalesPersonBtn);
-				remove(editInvoiceBtn);
-				remove(editInventoryBtn);
-				remove(customerList);
-				remove(mainMenuBtn);
-				remove(invoiceList);
-				remove(inventoryList);
-				remove(salesPersonList);
-				remove(deleteInvoiceBtn);
-				remove(openInvoiceBtn);
-				remove(closedInvoiceBtn);
-				add(menuLbl);
-				add(customerBtn);
-				add(salesPersonBtn);
-				add(invoiceBtn);
-				add(inventoryBtn);
+				remove(addCustomerBtn);remove(addSalesPersonBtn);remove(addInvoiceBtn);remove(addInventoryBtn);remove(editCustomerBtn);remove(editSalesPersonBtn);
+				remove(editInvoiceBtn);remove(editInventoryBtn);remove(customerList);remove(mainMenuBtn);remove(invoiceList);remove(inventoryList);
+				remove(salesPersonList);remove(deleteInvoiceBtn);remove(openInvoiceBtn);remove(closedInvoiceBtn);remove(deleteCustBtn);remove(deleteSlsPersonBtn);
+				add(menuLbl);add(customerBtn);add(salesPersonBtn);add(invoiceBtn);add(inventoryBtn);
 				repaint();
 			
 		
-		}else if (a.getSource() == btnAddTaskSubmit) {
-			try {
-				
-			} catch (ArrayIndexOutOfBoundsException ab) {
-				JOptionPane.showMessageDialog(this, "Please dont mash submit button");
-			} catch (NumberFormatException exception) {
-				JOptionPane.showMessageDialog(this, "input must only be integers");
-			} catch (StringIndexOutOfBoundsException siobe) {
-				JOptionPane.showMessageDialog(this, "Out of Bounds Error");
-			}
-
-		} // end btnAddTaskSubmit
-		else if (a.getSource() == btnSubmit) {
-		} // end button submit
+		}
 	
 	}// end actionListner
 	
@@ -618,19 +605,56 @@ public class Panel extends JPanel implements ActionListener, MouseListener {
 		addMouseListener(this);
 		// TODO Auto-generated method stub
 		
-		//make it so each is cleared as you click
-		//if( e.getSource()==tfMonth) {
-		//	tfMonth.setText("");			
-		//	}
 		
 	}
 	
 	public void addCustomer() {
-		cust.add(new Customer(1,"poop","caca",23.5));
+		double tax = Double.parseDouble(tfCustSlsTax.getText());
+		cust.add(new Customer(Integer.parseInt(tfCustID.getText()),tfCustFName.getText(),tfCustLName.getText(), tax ));
+		//cust.add(new Customer(1,"poop","caca",23.5));
 	}
+	public void editCustomer(int index) {
+		String fName = tfCustFName.getText();
+		String lName = tfCustLName.getText();
+		double slsTax = Double.parseDouble(tfCustSlsTax.getText());
+		cust.get(index).editCustomer(fName,lName, slsTax);	
 	
+	}
 	public void removeCustomer(int index ) {
 		cust.remove(index);
+	}
+	
+	public void removeSalesperson(int index) {
+		sales.remove(index);
+	}
+	public void editSalesPerson(int index) {
+		String fName = tfSlsPersonFName.getText();
+		String lName =tfSlsPersonLName.getText();
+		double comission = Double.parseDouble(tfSlsPersonCommission.getText());
+		int id = Integer.parseInt(tfSlsPersonID.getText());
+		sales.get(index).editSalesPerson(fName, lName, comission);
+	}
+	
+	public void addSalesperson() {
+		String fName = tfSlsPersonFName.getText();
+		String lName =tfSlsPersonLName.getText();
+		double comission = Double.parseDouble(tfSlsPersonCommission.getText());
+		int id = Integer.parseInt(tfSlsPersonID.getText());
+		sales.add(new Salesperson(fName,lName,comission,id));
+		//sales.add(new Salesperson("Mas","Puta", 12.2, 123));
+	}
+	
+	public void boughtProduct() {
+		prods.add(new PurchasedProduct("Cookies", 5));
+	}
+	public void makeInvoice() {
+		//Salesperson s = sales.get(0);
+		//Customer c = cust.get(0);
+		sales.add(new Salesperson("Viet","Nguyen",2.35,123));
+		cust.add(new Customer(222,"Wil","Mendy",12.9));
+//		System.out.println(s);
+//		System.out.println(c);
+		inv.add(new Invoice(345, sales.get(0), cust.get(0),12.67));
 	}
 	
 	public void mainMenuDisplays() {
